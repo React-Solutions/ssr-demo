@@ -34,7 +34,7 @@ npm install express
 
 
 ```javascript
-npm install @babel/register @babel/preset-env @babel/preset-react ignore-styles
+npm install @babel/register @babel/preset-env @babel/preset-react ignore-styles babel-plugin-transform-assets
 
 ```
 
@@ -91,14 +91,26 @@ app.listen(PORT, () => {
 
 ```javascript
 
-require('ignore-styles')
+require("ignore-styles");
 
-require('@babel/register')({
+require("@babel/register")({
   ignore: [/(node_modules)/],
-  presets: ['@babel/preset-env', '@babel/preset-react']
-})
+  presets: [
+    "@babel/preset-env",
+    ["@babel/preset-react", { runtime: "automatic" }],
+  ],
+  plugins: [
+    [
+      "transform-assets",
+      {
+        extensions: ["css", "svg"],
+        name: "static/media/[name].6ce24c58023cc2f8fd88fe9d219db6c6.[ext]",
+      },
+    ],
+  ],
+});
 
-require('./server')
+require("./server");
 
 ```
 
